@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales analytics | CI/CD demo</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="sales.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <main class="container">
+    <header>
+      <div><div class="eyebrow">DEVOPS ASSIGNMENT</div><h1>Sales analytics dashboard</h1><p>A simple live application deployed using GitHub Actions and AWS.</p></div>
+      <span class="environment">● Production demo</span>
+    </header>
+    <section class="kpis" aria-label="Key metrics">
+      <article class="card"><span class="label">Total revenue</span><strong id="revenue">—</strong><span class="note">Across six months</span></article>
+      <article class="card"><span class="label">Total orders</span><strong id="orders">—</strong><span class="note">Sample transactions</span></article>
+      <article class="card"><span class="label">Average order value</span><strong id="average">—</strong><span class="note">Revenue per transaction</span></article>
+    </section>
+    <section class="panel"><div class="panel-header"><div><h2>Monthly sales performance</h2><p>Revenue by month • sample data</p></div><span class="pill">Jan–Jun</span></div><div class="chart" id="chart" aria-label="Monthly sales bar chart"></div></section>
+    <footer><span>Built for the GitHub Actions + AWS CI/CD demonstration</span><span>Application version: <strong>__APP_VERSION__</strong></span></footer>
+  </main>
+</body>
+</html>
