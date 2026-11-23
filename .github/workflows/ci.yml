@@ -12,7 +12,7 @@ permissions:
   id-token: write
 
 jobs:
-  build-and-test:
+  build-test-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -51,8 +51,32 @@ jobs:
           cd dist
           zip -r ../sales-dashboard-${GITHUB_SHA}.zip .
 
-      - name: Upload build to AWS S3
+      - name: Upload artifact to AWS S3
         run: |
           aws s3 cp \
             sales-dashboard-${GITHUB_SHA}.zip \
             s3://ammar-devops-cicd-artifacts-2026/builds/sales-dashboard-${GITHUB_SHA}.zip
+
+      - name: Retrieve latest successful build from S3
+        run: |
+          aws s3 cp \
+            s3://ammar-devops-cicd-artifacts-2026/builds/sales-dashboard-${GITHUB_SHA}.zip \
+            deployment.zip
+
+      - name: Extract deployment files
+        run: |
+          mkdir -p deployment
+          unzip -o deployment.zip -d deployment
+
+      - name: Deploy website to S3 Sydney
+        run: |
+          aws s3 sync deployment/ \
+            s3://ammar-devops-dashboard-live-2026/ \
+            --delete \
+            --region ap-southeast-2
+
+      - name: Refresh CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id EFQLTLOWRAF5H \
+            --paths "/*"
